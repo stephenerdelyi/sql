@@ -1,0 +1,22 @@
+//////////////////////////////////////////////////////
+//              PROJECT ASSIGNMENT #1               //
+//      Stephen Erdelyi Jr - CS 446 - Phase V       //
+//////////////////////////////////////////////////////
+public class SQL {
+    static boolean allowFatalExecution = false;
+    static Console console = new Console();
+
+    public static void main(String[] args) {
+        /////////////////////////////////////////////////////
+        //                 STARTUP ACTIONS                 //
+        /////////////////////////////////////////////////////
+
+        console.printDiv();
+
+        /////////////////////////////////////////////////////
+        //                   SYSTEM READY                  //
+        /////////////////////////////////////////////////////
+
+        console.printNewline();
+    }
+}
