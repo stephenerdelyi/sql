@@ -9,7 +9,9 @@ JC = javac
 CLASSES = \
 		Console.java\
 		WriteFile.java\
-		ReadFile.java
+		ReadFile.java\
+		Tokenizer.java\
+		Token.java
 
 default: classes
 

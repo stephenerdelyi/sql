@@ -1,10 +1,26 @@
+import java.io.DataInputStream;
+import java.io.IOException;
+
 ///////////////////
 // Console: contains important output functions to the monitor or log file; also contains the error and crash functions
 ///////////////////
 public class Console extends SQL {
     WriteFile fileWriter = new WriteFile();
+    DataInputStream input = new DataInputStream(System.in);
     String logOption = "Log to Both";
     String logFileName = "log.lgf";
+
+    public String getInput() {
+        String inputVal = "";
+        try {
+            inputVal = input.readLine();
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        return inputVal;
+    }
 
     //log - contains all important logic for logging to the monitor, log file, or both
     public void log(String echoStatement, String route) {
