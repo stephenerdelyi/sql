@@ -18,7 +18,7 @@ default: classes
 classes: $(CLASSES:.java=.class)
 		clear
 		@echo "✓ SQL Compiled - Runtime Dependencies Now Available [$(MAIN)]"
-		@echo "✓ SQL Executed - Operating System will Initialize"
+		@echo "✓ SQL Executed - SQL Simulator will Initialize"
 		@($(JC) $(MAIN).java)
 		@($(JRUNNER) $(MAIN))
 
@@ -36,9 +36,9 @@ clean:
 		@echo ""
 
 export:
-		@(zip -r "PA1_SQLSim_ErdelyiStephen.zip" . -x ".git/*" "*.class" "*.lgf" "*.zip")
+		@(zip -r "serdelyi_pa1.zip" . -x ".git/*" "*.class" "*.lgf" "*.zip")
 		clear
-		@echo "✓ OS Exported - ZIP File Now Available [SimO$(OSNUM)]"
+		@echo "✓ OS Exported - ZIP File Now Available [serdelyi_pa1.zip]"
 		@echo ""
 
 commands:

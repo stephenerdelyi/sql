@@ -20,11 +20,17 @@ public class SQL {
         /////////////////////////////////////////////////////
         String retCommand = "";
         while(retCommand != "exit") {
-            console.log("Enter text:");
             String ret = console.getInput();
             Token token = tokenizer.parse(ret);
             retCommand = token.command;
-            console.log(retCommand);
+            if(retCommand == "error") {
+                console.log("-- !" + token.errorString);
+            } else if(retCommand == "comment" || retCommand == "exit") {
+                //do nothing on purpose
+            } else {
+                console.log(retCommand);
+                console.log(token.databaseValue);
+            }
         }
         console.printNewline();
     }

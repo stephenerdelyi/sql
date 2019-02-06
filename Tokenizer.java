@@ -4,32 +4,85 @@
 public class Tokenizer extends SQL {
     public String lastReadFile;
 
-    //read - read the file and store it to the lastReadFile variable
+    //parse -
     public Token parse(String inputString) {
         Token token = new Token();
-        inputString = inputString.toLowerCase();
-        if(inputString.startsWith("create database")) {
-            token.command = "create database";
-        } else if(inputString.startsWith("drop database")) {
-            token.command = "drop database";
-        } else if(inputString.startsWith("use")) {
-            token.command = "use";
+        Token errorToken = new Token("error");
+
+        formatForParse(token, inputString);
+
+        if(token.workingString.startsWith("create database") || token.workingString.startsWith("drop database") || token.workingString.startsWith("use")) {
+            //set command
+            if(token.workingString.startsWith("create database")) {
+                token.command = "create database";
+            } else if(token.workingString.startsWith("drop database")) {
+                token.command = "drop database";
+            } else if(token.workingString.startsWith("use")) {
+                token.command = "use";
+            }
+            removeCommand(token);
+
+            //set databaseValue
+            if(token.workingString.matches(".*\\s+.*")) {
+                errorToken.errorString = "Can not contain white space in db name";
+                return errorToken;
+            } else if(token.workingString.equals("")) {
+                errorToken.errorString = "No database value supplied";
+                return errorToken;
+            } else {
+                token.databaseValue = token.workingString;
+            }
+        } else if(token.workingString.startsWith("drop table") || token.workingString.startsWith("select * from")) {
+            //set command
+            if(token.workingString.startsWith("drop table")) {
+                token.command = "drop table";
+            } else if(token.workingString.startsWith("select * from")) {
+                token.command = "select * from";
+            }
+            removeCommand(token);
+
+            //set tableValue
+            if(token.workingString.matches(".*\\s+.*")) {
+                errorToken.errorString = "Can not contain white space in table name";
+                return errorToken;
+            } else if(token.workingString.equals("")) {
+                errorToken.errorString = "No table value supplied";
+                return errorToken;
+            } else {
+                token.tableValue = token.workingString;
+            }
         } else if(inputString.startsWith("create table")) {
             token.command = "create table";
-        } else if(inputString.startsWith("drop table")) {
-            token.command = "drop table";
-        } else if(inputString.startsWith("select * from")) {
-            token.command = "select * from";
+            removeCommand(token);
         } else if(inputString.startsWith("alter table")) {
             token.command = "alter table";
+            removeCommand(token);
         } else if(inputString.startsWith("--")) {
             token.command = "comment";
         } else if(inputString.startsWith(".exit")) {
             token.command = "exit";
         } else {
-            token.command = "error";
+            errorToken.errorString = "Invalid command received";
+            return errorToken;
         }
 
         return token;
+    }
+
+    public void removeCommand(Token token) {
+        token.workingString = token.workingString.substring(token.command.length());
+        while(token.workingString.startsWith(" ")) {
+            token.workingString = token.workingString.substring(1);
+        }
+    }
+
+    public void formatForParse(Token token, String inputString) {
+        //lowercase all chars and set working string value
+        token.workingString = inputString.toLowerCase();
+
+        //remove ; if it is in the string
+        if(token.workingString.endsWith(";")) {
+            token.workingString = token.workingString.substring(0, token.workingString.length() - 1);
+        }
     }
 }

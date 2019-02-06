@@ -11,6 +11,7 @@ public class Console extends SQL {
     String logFileName = "log.lgf";
 
     public String getInput() {
+        System.out.print(">> ");
         String inputVal = "";
         try {
             inputVal = input.readLine();
@@ -103,7 +104,7 @@ public class Console extends SQL {
 
     //printDiv - prints a divider to the monitor or log file
     public void printDiv() {
-        log("=======================================================", "log");
+        log("=========================================================", "log");
     }
 
     //printNewline - prints a new line to the monitor or log file
