@@ -1,0 +1,43 @@
+//////////////////////////////////////////////////////
+//              PROJECT ASSIGNMENT #1               //
+//      Stephen Erdelyi Jr - CS 457 - SQL Sim       //
+//////////////////////////////////////////////////////
+
+
+///////////////////
+// project description:
+///////////////////
+This SQL simulator allows simple database and table management. This simulator allows you to create, drop, alter, and query databases and the respective tables within them. A full report describing this program is available in the "report" folder.
+
+
+///////////////////
+// makefile instructions:
+///////////////////
+typing "make" will:
+    • compile all .java classes
+    • run the compiled program with a config file name of "config_1.conf"
+typing "make norun" will:
+    • compile all .java classes
+typing "make clean" will:
+    • remove all .lgf, .class, and .zip files
+typing "make export" will:
+    • create a .zip file of the project without .git, .mdf, .class, .zip, .lgf, or .conf files included
+typing "make commands" will:
+    • display all the makefile commands and their use cases
+typing "java OS $CONFNAME" will:
+    • run the compiled program with a config file name of "$CONFNAME"
+
+
+///////////////////
+// git information:
+///////////////////
+Git repository is located at:
+    • https://github.com/stephenerdelyi/db-project1
+Using git version:
+    • 2.17.2
+
+
+///////////////////
+// development information:
+///////////////////
+Created on macOS using javac and java (see makefile for make details)
