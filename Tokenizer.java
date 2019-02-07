@@ -1,5 +1,5 @@
 ///////////////////
-// Tokenizer:
+// Tokenizer: This class is used to parse string input data from a user into a usable token with actionable, validated options
 ///////////////////
 public class Tokenizer extends SQL {
     //parse - returns an accepted token (or errored) from a given input string
@@ -62,9 +62,8 @@ public class Tokenizer extends SQL {
             //set tblName
             token.tblName = getNextWord(token);
 
-            removeOutsideParenthesis(token);
-
             //set attributes
+            removeOutsideParenthesis(token);
             token.attributes = token.workingString.split(",\\s+");
         } else if(inputString.startsWith("alter table")) {
             token.command = "alter table";
