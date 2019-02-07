@@ -4,13 +4,11 @@ import java.io.IOException;
 import java.io.File;
 
 ///////////////////
-// ReadFile: file reader used to read input and config file content
+// ReadFile: file reader used to read table file content
 ///////////////////
 public class ReadFile extends SQL {
-    public String lastReadFile;
-
-    //read - read the file and store it to the lastReadFile variable
-    public void read(String fileName) {
+    //read - read the file and return its contents in a string
+    public String read(String fileName) {
         try {
             File file = new File(fileName);
             FileReader fileReader = new FileReader(file);
@@ -22,9 +20,10 @@ public class ReadFile extends SQL {
                 stringBuffer.append("\n");
             }
             fileReader.close();
-            lastReadFile = stringBuffer.toString();
+            return stringBuffer.toString();
         } catch (IOException e) {
             console.error("The filename \"" + fileName + "\" does not exist or is corrupted");
         }
+        return "";
     }
 }

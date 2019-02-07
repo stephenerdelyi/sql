@@ -3,7 +3,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 ///////////////////
-// WriteFile: file writer used to write output log file content
+// WriteFile: file writer used to write table content
 ///////////////////
 public class WriteFile extends SQL {
     //createFile - creates a file named by the input string

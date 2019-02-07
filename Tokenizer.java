@@ -2,9 +2,7 @@
 // Tokenizer:
 ///////////////////
 public class Tokenizer extends SQL {
-    public String lastReadFile;
-
-    //parse -
+    //parse - returns an accepted token (or errored) from a given input string
     public Token parse(String inputString) {
         Token token = new Token();
         Token errorToken = new Token("error");
@@ -96,6 +94,7 @@ public class Tokenizer extends SQL {
         return token;
     }
 
+    //getNextWord - returns the next word in a string, and removes it + all white space behind it
     public String getNextWord(Token token) {
         char nextChar = 'a';
         String nextWord = "";
@@ -112,6 +111,7 @@ public class Tokenizer extends SQL {
         return nextWord;
     }
 
+    //removeCommand - used after the command is ingested, this removes the command from the working string
     public void removeCommand(Token token) {
         token.workingString = token.workingString.substring(token.command.length());
         while(token.workingString.startsWith(" ")) {
@@ -119,6 +119,7 @@ public class Tokenizer extends SQL {
         }
     }
 
+    //removeOutsideParenthesis - used in parse -> create table action
     public void removeOutsideParenthesis(Token token) {
         //remove ( if it is in the end of the string
         if(token.workingString.startsWith("(")) {
@@ -131,6 +132,7 @@ public class Tokenizer extends SQL {
         }
     }
 
+    //formatForParse - formats string for parsing by lowercasing letters and removing ";"
     public void formatForParse(Token token, String inputString) {
         //lowercase all chars and set working string value
         token.workingString = inputString.toLowerCase();
