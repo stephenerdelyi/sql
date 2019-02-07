@@ -15,17 +15,17 @@ This SQL simulator allows simple database and table management. This simulator a
 ///////////////////
 typing "make" will:
     • compile all .java classes
-    • run the compiled program with a config file name of "config_1.conf"
+    • run the compiled program
 typing "make norun" will:
     • compile all .java classes
 typing "make clean" will:
     • remove all .lgf, .class, and .zip files
+typing "make cleandb" will:
+    • erase all database files located at the location: "~/cs457"
 typing "make export" will:
-    • create a .zip file of the project without .git, .mdf, .class, .zip, .lgf, or .conf files included
+    • create a .zip file of the project without .git, .class, .zip, or .lgf files included
 typing "make commands" will:
     • display all the makefile commands and their use cases
-typing "java OS $CONFNAME" will:
-    • run the compiled program with a config file name of "$CONFNAME"
 
 
 ///////////////////
