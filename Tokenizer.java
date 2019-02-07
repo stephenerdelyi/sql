@@ -22,7 +22,7 @@ public class Tokenizer extends SQL {
             }
             removeCommand(token);
 
-            //set databaseValue
+            //set dbName
             if(token.workingString.matches(".*\\s+.*")) {
                 errorToken.errorString = "Can not contain white space in db name";
                 return errorToken;
@@ -30,7 +30,7 @@ public class Tokenizer extends SQL {
                 errorToken.errorString = "No database value supplied";
                 return errorToken;
             } else {
-                token.databaseValue = token.workingString;
+                token.dbName = token.workingString;
             }
         } else if(token.workingString.startsWith("drop table") || token.workingString.startsWith("select * from")) {
             //set command
@@ -41,7 +41,7 @@ public class Tokenizer extends SQL {
             }
             removeCommand(token);
 
-            //set tableValue
+            //set tblName
             if(token.workingString.matches(".*\\s+.*")) {
                 errorToken.errorString = "Can not contain white space in table name";
                 return errorToken;
@@ -49,7 +49,7 @@ public class Tokenizer extends SQL {
                 errorToken.errorString = "No table value supplied";
                 return errorToken;
             } else {
-                token.tableValue = token.workingString;
+                token.tblName = token.workingString;
             }
         } else if(inputString.startsWith("create table")) {
             token.command = "create table";
@@ -61,8 +61,8 @@ public class Tokenizer extends SQL {
                 return errorToken;
             }*/
 
-            //set tableValue
-            token.tableValue = getNextWord(token);
+            //set tblName
+            token.tblName = getNextWord(token);
 
             removeOutsideParenthesis(token);
 
@@ -78,8 +78,8 @@ public class Tokenizer extends SQL {
                 return errorToken;
             }*/
 
-            //set tableValue
-            token.tableValue = getNextWord(token);
+            //set tblName
+            token.tblName = getNextWord(token);
             //set subCommand
             token.subCommand = getNextWord(token);
             //set attribute value

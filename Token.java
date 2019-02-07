@@ -3,8 +3,8 @@
 ///////////////////
 public class Token extends SQL {
     public String command; //CREATE DATABASE
-    public String tableValue; //tbl_1
-    public String databaseValue; //db_1
+    public String tblName; //tbl_1
+    public String dbName; //db_1
     public String subCommand; //ADD
     public String attributes[] = new String[20]; //(a3 float,...
     public String errorString; //error string for user to read

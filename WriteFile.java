@@ -20,7 +20,7 @@ public class WriteFile extends SQL {
             fw = new FileWriter(fileName, appendMode);
             bw = new BufferedWriter(fw);
             if (inputString != "") {
-                bw.write(inputString + "\n");
+                bw.write(inputString);
             }
         } catch (IOException e) {
             console.error("The file \"" + fileName + "\" can not be written to because it could not be opened or it is corrupted");

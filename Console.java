@@ -66,7 +66,7 @@ public class Console extends SQL {
             System.out.print((char)27 + "[39m");
         } else if (route.equals("success")) {
             System.out.print((char)27 + "[39m");
-            System.out.println((char)27 + "[32m" + "➤  !" + echoStatement);
+            System.out.println((char)27 + "[32m" + "➤  " + echoStatement);
             System.out.print((char)27 + "[39m");
         } else if (route.equals("fatal")) {
             System.out.println((char)27 + "[39m");
