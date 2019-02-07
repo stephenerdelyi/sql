@@ -21,7 +21,7 @@ classes: $(CLASSES:.java=.class)
 		@echo "✓ SQL Compiled - Runtime Dependencies Now Available [$(MAIN)]"
 		@echo "✓ SQL Executed - SQL Simulator will Initialize"
 		@($(JC) $(MAIN).java)
-		@($(JRUNNER) $(MAIN))
+		@($(JRUNNER) $(MAIN) $(FILE))
 
 norun: $(CLASSES:.java=.class)
 		clear
@@ -53,9 +53,10 @@ commands:
 		@echo "///////////////////////////////////////////////////////////////"
 		@echo "//                    MAKEFILE COMMANDS                      //"
 		@echo "///////////////////////////////////////////////////////////////"
-		@echo "make      	makes the executable and runs the program"
-		@echo "make norun	makes the executable w/o running the program"
-		@echo "make clean	removes the executable and unnecessary files"
-		@echo "make cleandb	removes only the db files in the home folder"
-		@echo "make export	makes a packaged .zip for submission"
+		@echo "make      		makes the executable and runs the program"
+		@echo "make FILE=PATH	uses an input file instead of command line"
+		@echo "make norun		makes the executable w/o running the program"
+		@echo "make clean		removes the executable and unnecessary files"
+		@echo "make cleandb		removes only the db files in the home folder"
+		@echo "make export		makes a packaged .zip for submission"
 		@echo ""

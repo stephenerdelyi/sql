@@ -49,7 +49,7 @@ public class Tokenizer extends SQL {
             } else {
                 token.tblName = token.workingString;
             }
-        } else if(inputString.startsWith("create table")) {
+        } else if(token.workingString.startsWith("create table")) {
             token.command = "create table";
             removeCommand(token);
 
@@ -65,7 +65,7 @@ public class Tokenizer extends SQL {
             //set attributes
             removeOutsideParenthesis(token);
             token.attributes = token.workingString.split(",\\s+");
-        } else if(inputString.startsWith("alter table")) {
+        } else if(token.workingString.startsWith("alter table")) {
             token.command = "alter table";
             removeCommand(token);
 
@@ -81,9 +81,9 @@ public class Tokenizer extends SQL {
             token.subCommand = getNextWord(token);
             //set attribute value
             token.attributes[0] = token.workingString;
-        } else if(inputString.startsWith("--")) {
+        } else if(token.workingString.startsWith("--") || token.workingString.matches("\\s+") || token.workingString.equals("")) {
             token.command = "comment";
-        } else if(inputString.startsWith(".exit")) {
+        } else if(token.workingString.startsWith(".exit")) {
             token.command = "exit";
         } else {
             errorToken.errorString = "Invalid command received";

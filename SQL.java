@@ -19,11 +19,15 @@ public class SQL {
         /////////////////////////////////////////////////////
         //                   SYSTEM READY                  //
         /////////////////////////////////////////////////////
-        String retCommand = "";
-        while(retCommand != "exit") {
-            Token token = tokenizer.parse(console.getInput());
-            retCommand = token.command;
-            sql.run(token);
+        if(args.length == 1) {
+            sql.parseFile(args[0]);
+        } else {
+            String retCommand = "";
+            while(retCommand != "exit") {
+                Token token = tokenizer.parse(console.getInput());
+                retCommand = token.command;
+                sql.run(token);
+            }
         }
         console.printNewline();
     }

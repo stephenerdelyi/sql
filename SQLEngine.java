@@ -35,6 +35,16 @@ public class SQLEngine extends SQL {
         }
     }
 
+    //parseFile -
+    public void parseFile(String fileLocation) {
+        String fileText[] = new String[100];
+        fileText = readFile.read(fileLocation).split("\n");
+        for(int i = 0; i < fileText.length; i++) {
+            Token token = tokenizer.parse(fileText[i]);
+            run(token);
+        }
+    }
+
     //createDatabase - creates a new database in the database file directory
     public void createDatabase(Token token) {
         if(databaseExists(token.dbName)) {

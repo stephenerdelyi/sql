@@ -15,7 +15,10 @@ This SQL simulator allows simple database and table management. This simulator a
 ///////////////////
 typing "make" will:
     • compile all .java classes
-    • run the compiled program
+    • run the compiled program with input through command line
+typing "make FILE=PATH" will:
+    • compile all .java classes
+    • run the compiled program with an input file
 typing "make norun" will:
     • compile all .java classes
 typing "make clean" will:
