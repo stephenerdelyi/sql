@@ -6,6 +6,7 @@ public class SQL {
     static boolean allowFatalExecution = true;
     static Console console = new Console();
     static Tokenizer tokenizer = new Tokenizer();
+    static SQLEngine sql = new SQLEngine();
 
     public static void main(String[] args) {
         /////////////////////////////////////////////////////
@@ -20,17 +21,9 @@ public class SQL {
         /////////////////////////////////////////////////////
         String retCommand = "";
         while(retCommand != "exit") {
-            String ret = console.getInput();
-            Token token = tokenizer.parse(ret);
+            Token token = tokenizer.parse(console.getInput());
             retCommand = token.command;
-            if(retCommand == "error") {
-                console.log("-- !" + token.errorString);
-            } else if(retCommand == "comment" || retCommand == "exit") {
-                //do nothing on purpose
-            } else {
-                console.log(retCommand);
-                console.log(token.databaseValue);
-            }
+            sql.run(token);
         }
         console.printNewline();
     }

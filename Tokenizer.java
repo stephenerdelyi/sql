@@ -54,9 +54,36 @@ public class Tokenizer extends SQL {
         } else if(inputString.startsWith("create table")) {
             token.command = "create table";
             removeCommand(token);
+
+            //verify resulting string
+            /*if(!token.workingString.matches("")) {
+                errorToken.errorString = "Create table command invalid (general regex fail)";
+                return errorToken;
+            }*/
+
+            //set tableValue
+            token.tableValue = getNextWord(token);
+
+            removeOutsideParenthesis(token);
+
+            //set attributes
+            token.attributes = token.workingString.split(",\\s+");
         } else if(inputString.startsWith("alter table")) {
             token.command = "alter table";
             removeCommand(token);
+
+            //verify resulting string
+            /*if(!token.workingString.matches("")) {
+                errorToken.errorString = "Alter table command invalid (general regex fail)";
+                return errorToken;
+            }*/
+
+            //set tableValue
+            token.tableValue = getNextWord(token);
+            //set subCommand
+            token.subCommand = getNextWord(token);
+            //set attribute value
+            token.attributes[0] = token.workingString;
         } else if(inputString.startsWith("--")) {
             token.command = "comment";
         } else if(inputString.startsWith(".exit")) {
@@ -69,10 +96,38 @@ public class Tokenizer extends SQL {
         return token;
     }
 
+    public String getNextWord(Token token) {
+        char nextChar = 'a';
+        String nextWord = "";
+        while(nextChar != ' ') {
+            nextWord += token.workingString.charAt(0);
+            nextChar = token.workingString.charAt(1);
+            token.workingString = token.workingString.substring(1);
+        }
+        //remove any number of spaces between next word
+        while(token.workingString.startsWith(" ")) {
+            token.workingString = token.workingString.substring(1);
+        }
+
+        return nextWord;
+    }
+
     public void removeCommand(Token token) {
         token.workingString = token.workingString.substring(token.command.length());
         while(token.workingString.startsWith(" ")) {
             token.workingString = token.workingString.substring(1);
+        }
+    }
+
+    public void removeOutsideParenthesis(Token token) {
+        //remove ( if it is in the end of the string
+        if(token.workingString.startsWith("(")) {
+            token.workingString = token.workingString.substring(1);
+        }
+
+        //remove ) if it is in the end of the string
+        if(token.workingString.endsWith(")")) {
+            token.workingString = token.workingString.substring(0, token.workingString.length() - 1);
         }
     }
 

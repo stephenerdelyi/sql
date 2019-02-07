@@ -11,7 +11,7 @@ public class Console extends SQL {
     String logFileName = "log.lgf";
 
     public String getInput() {
-        System.out.print(">> ");
+        System.out.print("➤  ");
         String inputVal = "";
         try {
             inputVal = input.readLine();
@@ -61,12 +61,16 @@ public class Console extends SQL {
         if (route.equals("log")) {
             System.out.println((char)27 + "[39m" + echoStatement);
         } else if (route.equals("warn")) {
-            System.out.println((char)27 + "[39m");
-            System.out.println((char)27 + "[36m" + "➤ WARNING: " + echoStatement);
-            System.out.println((char)27 + "[39m");
+            System.out.print((char)27 + "[39m");
+            System.out.println((char)27 + "[31m" + "➤  !" + echoStatement);
+            System.out.print((char)27 + "[39m");
+        } else if (route.equals("success")) {
+            System.out.print((char)27 + "[39m");
+            System.out.println((char)27 + "[32m" + "➤  !" + echoStatement);
+            System.out.print((char)27 + "[39m");
         } else if (route.equals("fatal")) {
             System.out.println((char)27 + "[39m");
-            System.out.println((char)27 + "[31m" + "✖ FATAL ERROR: " + echoStatement);
+            System.out.println((char)27 + "[36m" + "✖ FATAL ERROR: " + echoStatement);
             System.out.println((char)27 + "[39m");
         }
     }
@@ -100,6 +104,10 @@ public class Console extends SQL {
     //error - writes a log message with isFatal set to true - will crash program
     public void error(String echoStatement) {
         log(echoStatement, "fatal");
+    }
+
+    public void success(String echoStatement) {
+        log(echoStatement, "success");
     }
 
     //printDiv - prints a divider to the monitor or log file

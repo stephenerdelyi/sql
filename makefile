@@ -11,7 +11,8 @@ CLASSES = \
 		WriteFile.java\
 		ReadFile.java\
 		Tokenizer.java\
-		Token.java
+		Token.java\
+		SQLEngine.java
 
 default: classes
 
