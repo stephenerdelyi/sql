@@ -2,6 +2,7 @@ JFLAGS = -g
 JRUNNER = java
 MAIN = SQL
 JC = javac
+VERSION = 2
 .SUFFIXES: .java .class
 .java.class:
 		$(JC) $(JFLAGS) $*.java
@@ -19,7 +20,7 @@ default: classes
 classes: $(CLASSES:.java=.class)
 		clear
 		@echo "✓ SQL Compiled - Runtime Dependencies Now Available [$(MAIN)]"
-		@echo "✓ SQL Executed - SQL Simulator will Initialize"
+		@echo "✓ SQL Executed - SQL Simulator will Initialize [v$(VERSION)]"
 		@($(JC) $(MAIN).java)
 		@($(JRUNNER) $(MAIN) $(FILE))
 
@@ -43,9 +44,9 @@ cleandb:
 		@echo ""
 
 export:
-		@(zip -r "serdelyi_pa1.zip" . -x ".git/*" "*.class" "*.lgf" "*.zip")
+		@(zip -r "serdelyi_pa$(VERSION).zip" . -x ".git/*" "*.class" "*.lgf" "*.zip")
 		clear
-		@echo "✓ SQL Exported - ZIP File Now Available [serdelyi_pa1.zip]"
+		@echo "✓ SQL Exported - ZIP File Now Available [serdelyi_pa$(VERSION).zip]"
 		@echo ""
 
 commands:

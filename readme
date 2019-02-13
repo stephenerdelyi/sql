@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////
-//              PROJECT ASSIGNMENT #1               //
+//              PROJECT ASSIGNMENT #2               //
 //      Stephen Erdelyi Jr - CS 457 - SQL Sim       //
 //////////////////////////////////////////////////////
 
@@ -41,7 +41,7 @@ typing "make commands" will:
 // git information:
 ///////////////////
 Git repository is located at:
-    • https://github.com/stephenerdelyi/db-project1
+    • https://github.com/stephenerdelyi/sql
 Using git version:
     • 2.17.2
 

@@ -7,7 +7,7 @@ import java.nio.file.Path;
 // SQLEngine: The brains of the SQL simulator - handles all tokenized db/table actions
 ///////////////////
 public class SQLEngine extends SQL {
-    String databaseLocation = System.getProperty("user.home") + "/cs457/pa1/"; //the location of the database, currently set to ~/cs457/pa1/
+    String databaseLocation = System.getProperty("user.home") + "/cs457/pa" + version + "/"; //the location of the database, currently set to ~/cs457/paN/
     WriteFile writeFile = new WriteFile(); //the file writer, used to write files
     ReadFile readFile = new ReadFile(); //the file reader, used to read files
     String currentDB = ""; //the current database value (changed with the use command)

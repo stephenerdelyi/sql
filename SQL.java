@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////
-//              PROJECT ASSIGNMENT #1               //
+//              PROJECT ASSIGNMENT #2               //
 //      Stephen Erdelyi Jr - CS 457 - SQL Sim       //
 //////////////////////////////////////////////////////
 public class SQL {
@@ -7,13 +7,14 @@ public class SQL {
     static Console console = new Console();
     static Tokenizer tokenizer = new Tokenizer();
     static SQLEngine sql = new SQLEngine();
+    static int version = 2;
 
     public static void main(String[] args) {
         /////////////////////////////////////////////////////
         //                 STARTUP ACTIONS                 //
         /////////////////////////////////////////////////////
         console.printDiv();
-        console.log("SQL SIMULATOR - PA 1 - Steve Erdelyi");
+        console.log("SQL SIMULATOR - PA " + version + " - Steve Erdelyi");
         console.printDiv();
 
         /////////////////////////////////////////////////////
