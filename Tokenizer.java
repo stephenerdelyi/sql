@@ -81,6 +81,37 @@ public class Tokenizer extends SQL {
             token.subCommand = getNextWord(token);
             //set attribute value
             token.attributes[0] = token.workingString;
+            token.attributesCount++;
+        } else if(token.workingString.startsWith("insert into")) {
+            token.command = "insert into";
+            removeCommand(token);
+
+            //set tblName
+            token.tblName = getNextWord(token);
+            //set attribute values
+            token.attributes = getAttributes(token.workingString);
+        } else if(token.workingString.startsWith("select")) {
+            token.command = "select";
+            removeCommand(token);
+
+            //get the selected tokens
+            String nextWord = getNextWord(token);
+            while(!nextWord.equals("from")) {
+                token.selected[token.selectedCount] = nextWord;
+                token.selectedCount++;
+                nextWord = getNextWord(token);
+            }
+
+            //set tblName
+            token.tblName = getNextWord(token);
+            //remove where
+            getNextWord(token);
+            //set where clause
+            token.whereClause = getNextWord(token);
+            //set test clause
+            token.testClause = getNextWord(token);
+            //set value clause
+            token.valueClause = getNextWord(token);
         } else if(token.workingString.startsWith("--") || token.workingString.matches("\\s+") || token.workingString.equals("")) {
             token.command = "comment";
         } else if(token.workingString.startsWith(".exit")) {
@@ -93,18 +124,53 @@ public class Tokenizer extends SQL {
         return token;
     }
 
+    public String[] getAttributes(String inputString) {
+        inputString.trim();
+
+        if(inputString.startsWith("values")) {
+            inputString = inputString.substring(6);
+        }
+        if(inputString.startsWith("(")) {
+            inputString = inputString.substring(1);
+        }
+        if(inputString.endsWith(")")) {
+            inputString = inputString.substring(0, inputString.length() - 1);
+        }
+        String returnArray[] = new String[20];
+        returnArray = inputString.split(",\\s+");
+
+        for(int i = 0; i < returnArray.length; i++) {
+            if(returnArray[i].startsWith("'")) {
+                returnArray[i] = returnArray[i].substring(1);
+            }
+            if(returnArray[i].endsWith("'")) {
+                returnArray[i] = returnArray[i].substring(0, returnArray[i].length() - 1);
+            }
+        }
+
+        return returnArray;
+    }
+
     //getNextWord - returns the next word in a string, and removes it + all white space behind it
     public String getNextWord(Token token) {
         char nextChar = 'a';
         String nextWord = "";
-        while(nextChar != ' ') {
-            nextWord += token.workingString.charAt(0);
-            nextChar = token.workingString.charAt(1);
-            token.workingString = token.workingString.substring(1);
+        if(token.workingString.contains(" ")) {
+            while(nextChar !=  ' ') {
+                nextWord += token.workingString.charAt(0);
+                nextChar = token.workingString.charAt(1);
+                token.workingString = token.workingString.substring(1);
+            }
+        } else {
+            nextWord = token.workingString;
         }
         //remove any number of spaces between next word
         while(token.workingString.startsWith(" ")) {
             token.workingString = token.workingString.substring(1);
+        }
+        //remove the comma at the end, if there is one
+        if(nextWord.endsWith(",")) {
+            nextWord = nextWord.substring(0, nextWord.length() - 1);
         }
 
         return nextWord;

@@ -13,7 +13,8 @@ CLASSES = \
 		ReadFile.java\
 		Tokenizer.java\
 		Token.java\
-		SQLEngine.java
+		SQLEngine.java\
+		Table.java
 
 default: classes
 
