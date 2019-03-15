@@ -163,6 +163,7 @@ public class Tokenizer extends SQL {
         return token;
     }
 
+    //getAttributes - returns a string array of attributes based on an input string
     public String[] getAttributes(String inputString) {
         inputString.trim();
 
@@ -223,12 +224,13 @@ public class Tokenizer extends SQL {
         }
     }
 
+    //removeOusideQuotes - removes outside quotes in parse -> update, delete, select
     public String removeOusideQuotes(String inputString) {
-
+        //remove ' if it is in the beginnng of the string
         if(inputString.startsWith("'")) {
             inputString = inputString.substring(1);
         }
-
+        //remove ' if it is in the end of the string
         if(inputString.endsWith("'")) {
             inputString = inputString.substring(0, inputString.length() - 1);
         }
@@ -238,7 +240,7 @@ public class Tokenizer extends SQL {
 
     //removeOutsideParenthesis - used in parse -> create table action
     public void removeOutsideParenthesis(Token token) {
-        //remove ( if it is in the end of the string
+        //remove ( if it is in the beginning of the string
         if(token.workingString.startsWith("(")) {
             token.workingString = token.workingString.substring(1);
         }

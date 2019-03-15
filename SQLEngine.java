@@ -43,7 +43,7 @@ public class SQLEngine extends SQL {
         }
     }
 
-    //parseFile -
+    //parseFile - parses an entire sql file, executing commands as it goes
     public void parseFile(String fileLocation) {
         String fileText[] = new String[100];
         fileText = readFile.read(fileLocation).replace("\n", "**").split("\\*\\*");
@@ -109,7 +109,7 @@ public class SQLEngine extends SQL {
         }
     }
 
-    //
+    //insert - inserts the specified value into the table
     public void insert(Token token) {
         if(currentDB == "") {
             console.warn("Failed to insert into table " + token.tblName + " because there is no database in use");
@@ -170,6 +170,7 @@ public class SQLEngine extends SQL {
         }
     }
 
+    //select - selects data modeled by a query string
     public void select(Token token) {
         if(currentDB == "") {
             console.warn("Failed to select table " + token.tblName + " because there is no database in use");
@@ -186,10 +187,10 @@ public class SQLEngine extends SQL {
             }
             //print the first column
             for(int i = 0; i < token.selectedCount; i++) {
-                returnString += table.data[0][i] + " | ";
+                returnString += table.data[0][selectedColumns[i]] + " | ";
             }
-            console.log("➤  Table: " + token.tblName);
-            console.data("**" + returnString.substring(0, returnString.length() - 3));
+            console.log("Table: " + token.tblName);
+            console.data(returnString.substring(0, returnString.length() - 3));
             //loop through the columns and print the matching values
             for(int i = 1; i < table.numRows; i++) {
                 returnString = ""; //reset the return string value
@@ -214,6 +215,7 @@ public class SQLEngine extends SQL {
         }
     }
 
+    //update - updates the table where matching values are found from the query string
     public void update(Token token) {
         if(currentDB == "") {
             console.warn("Failed to update table " + token.tblName + " because there is no database in use");
@@ -225,6 +227,7 @@ public class SQLEngine extends SQL {
             int setColumn = table.getColumnValue(token.setClause);
             int updateValue = 0;
 
+            //loop through all rows
             for(int i = 1; i < table.numRows; i++) {
                 if(token.testClause.equals("=")) {
                     if(table.data[i][whereColumn].equals(token.valueClause)) {
@@ -285,6 +288,7 @@ public class SQLEngine extends SQL {
         }
     }
 
+    //delete - delete rows which satisfy a condition given by the query string
     public void delete(Token token) {
         if(currentDB == "") {
             console.warn("Failed to delete row from table " + token.tblName + " because there is no database in use");

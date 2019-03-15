@@ -8,15 +8,15 @@ public class Token extends SQL {
     public String subCommand; //ADD
     public String attributes[] = new String[20]; //(a3 float,...
     public String selected[] = new String[20]; //(a3 float,...
-    public String whereClause;
-    public String testClause;
-    public String valueClause;
-    public String setClause;
-    public String setValueClause;
+    public String whereClause; //the value that comes directly after "where" keyword
+    public String testClause; //the test value, ie =, !=, >, <, etc
+    public String valueClause; //the value that comes directly after the test clause
+    public String setClause; //the set clause (used only in update)
+    public String setValueClause; //the set value clause (used only in update)
     public String errorString; //error string for user to read
     public String workingString; //the working string used for processing
-    public int selectedCount = 0;
-    public int attributesCount = 0;
+    public int selectedCount = 0; //the number of selected values
+    public int attributesCount = 0; //the number of attribute values
 
     //Token - default constructor that does nothing but is needed since we have an override
     Token() {
