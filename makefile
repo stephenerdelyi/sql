@@ -34,6 +34,7 @@ clean:
 		$(RM) *.class
 		$(RM) *.lgf
 		$(RM) *.zip
+		$(RM) .DS_Store
 		clear
 		@echo "✓ SQL Cleaned - Runtime Dependencies No Longer Available"
 		@echo ""
