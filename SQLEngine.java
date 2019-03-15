@@ -34,6 +34,10 @@ public class SQLEngine extends SQL {
             insert(token);
         } else if(token.command == "select") {
             select(token);
+        } else if(token.command == "update") {
+            update(token);
+        } else if(token.command == "delete") {
+            delete(token);
         } else if(token.command == "error") {
             console.warn(token.errorString);
         }
@@ -121,7 +125,7 @@ public class SQLEngine extends SQL {
                 attributeString = attributeString.substring(3); //trim the first pipe from the string
                 String tablePath = databaseLocation + currentDB + "/" + token.tblName;
                 writeFile.write(tablePath, true, "\n" + attributeString);
-                console.success("Inserted " + token.attributes.length + " values into table " + token.tblName);
+                console.success("1 new record inserted into table " + token.tblName);
             }
         }
     }
@@ -160,7 +164,7 @@ public class SQLEngine extends SQL {
                 console.warn("Failed to select table " + token.tblName + " because it does not exist");
             } else {
                 Table table = new Table(databaseLocation + currentDB + "/" + token.tblName);
-                console.log("➤  Table printout: " + token.tblName);
+                console.log("➤  Table: " + token.tblName);
                 table.print();
             }
         }
@@ -175,7 +179,7 @@ public class SQLEngine extends SQL {
             Table table = new Table(databaseLocation + currentDB + "/" + token.tblName);
             int selectedColumns[] = new int[20];
             int whereColumn = table.getColumnValue(token.whereClause);
-            String returnString = "   ";
+            String returnString = "";
             //convert selected column strings to integer column values
             for(int i = 0; i < token.selectedCount; i++) {
                 selectedColumns[i] = table.getColumnValue(token.selected[i]);
@@ -184,10 +188,11 @@ public class SQLEngine extends SQL {
             for(int i = 0; i < token.selectedCount; i++) {
                 returnString += table.data[0][i] + " | ";
             }
-            console.log(returnString.substring(0, returnString.length() - 3));
+            console.log("➤  Table: " + token.tblName);
+            console.data("**" + returnString.substring(0, returnString.length() - 3));
             //loop through the columns and print the matching values
             for(int i = 1; i < table.numRows; i++) {
-                returnString = "   "; //reset the return string value
+                returnString = ""; //reset the return string value
                 //if we are checking for equality
                 if(token.testClause.equals("=")) {
                     if(table.data[i][whereColumn].equals(token.valueClause)) {
@@ -203,8 +208,62 @@ public class SQLEngine extends SQL {
                     }
                 }
                 if(!returnString.trim().equals("")) {
-                    console.log(returnString.substring(0, returnString.length() - 3));
+                    console.data(returnString.substring(0, returnString.length() - 3));
                 }
+            }
+        }
+    }
+
+    public void update(Token token) {
+        if(currentDB == "") {
+            console.warn("Failed to update table " + token.tblName + " because there is no database in use");
+        } else if(!tableExists(token.tblName)) {
+            console.warn("Failed to update table " + token.tblName + " because it does not exist");
+        } else {
+            Table table = new Table(databaseLocation + currentDB + "/" + token.tblName);
+            int whereColumn = table.getColumnValue(token.whereClause);
+            int setColumn = table.getColumnValue(token.setClause);
+            int updateValue = 0;
+
+            for(int i = 1; i < table.numRows; i++) {
+                if(token.testClause.equals("=")) {
+                    if(table.data[i][whereColumn].equals(token.valueClause)) {
+                        table.data[i][setColumn] = token.setValueClause;
+                        updateValue++;
+                    }
+                } else if(token.testClause.equals("!=")) {
+                    if(!table.data[i][whereColumn].equals(token.valueClause)) {
+                        table.data[i][setColumn] = token.setValueClause;
+                        updateValue++;
+                    }
+                } else if(token.testClause.equals("<")) {
+                    if(Float.parseFloat(table.data[i][whereColumn]) < Float.parseFloat(token.valueClause)) {
+                        table.data[i][setColumn] = token.setValueClause;
+                        updateValue++;
+                    }
+                } else if(token.testClause.equals(">")) {
+                    if(Float.parseFloat(table.data[i][whereColumn]) > Float.parseFloat(token.valueClause)) {
+                        table.data[i][setColumn] = token.setValueClause;
+                        updateValue++;
+                    }
+                } else if(token.testClause.equals("<=")) {
+                    if(Float.parseFloat(table.data[i][whereColumn]) <= Float.parseFloat(token.valueClause)) {
+                        table.data[i][setColumn] = token.setValueClause;
+                        updateValue++;
+                    }
+                } else if(token.testClause.equals(">=")) {
+                    if(Float.parseFloat(table.data[i][whereColumn]) >= Float.parseFloat(token.valueClause)) {
+                        table.data[i][setColumn] = token.setValueClause;
+                        updateValue++;
+                    }
+                }
+            }
+
+            if(updateValue > 0) {
+                table.export();
+                console.success(updateValue + " record(s) modified in table " + token.tblName);
+            } else {
+                console.warn("Failed to update table " + token.tblName + " due to an error");
             }
         }
     }
@@ -222,6 +281,58 @@ public class SQLEngine extends SQL {
                     writeFile.write(tablePath, true, " | " + token.attributes[0]);
                     console.success("Table " + token.tblName + " modified");
                 }
+            }
+        }
+    }
+
+    public void delete(Token token) {
+        if(currentDB == "") {
+            console.warn("Failed to delete row from table " + token.tblName + " because there is no database in use");
+        } else if(!tableExists(token.tblName)) {
+            console.warn("Failed to delete row from table " + token.tblName + " because it does not exist");
+        } else {
+            Table table = new Table(databaseLocation + currentDB + "/" + token.tblName);
+            int whereColumn = table.getColumnValue(token.whereClause);
+            int goUntil = table.numRows;
+            int deleteCount = 0;
+            for(int i = 1; i < goUntil; i++) {
+                if(token.testClause.equals("=")) {
+                    if(table.data[i][whereColumn].equals(token.valueClause)) {
+                        table.delete(i);
+                        deleteCount++;
+                    }
+                } else if(token.testClause.equals("!=")) {
+                    if(!table.data[i][whereColumn].equals(token.valueClause)) {
+                        table.delete(i);
+                        deleteCount++;
+                    }
+                } else if(token.testClause.equals(">")) {
+                    if(Float.parseFloat(table.data[i][whereColumn]) > Float.parseFloat(token.valueClause)) {
+                        table.delete(i);
+                        deleteCount++;
+                    }
+                } else if(token.testClause.equals("<")) {
+                    if(Float.parseFloat(table.data[i][whereColumn]) < Float.parseFloat(token.valueClause)) {
+                        table.delete(i);
+                        deleteCount++;
+                    }
+                } else if(token.testClause.equals(">=")) {
+                    if(Float.parseFloat(table.data[i][whereColumn]) >= Float.parseFloat(token.valueClause)) {
+                        table.delete(i);
+                        deleteCount++;
+                    }
+                } else if(token.testClause.equals("<=")) {
+                    if(Float.parseFloat(table.data[i][whereColumn]) <= Float.parseFloat(token.valueClause)) {
+                        table.delete(i);
+                        deleteCount++;
+                    }
+                }
+            }
+            if(deleteCount > 0) {
+                table.export();
+                console.success(deleteCount + " record(s) deleted from table " + token.tblName);
+            } else {
+                console.warn("Failed to delete rows from the table " + token.tblName + " due to an error");
             }
         }
     }

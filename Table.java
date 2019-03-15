@@ -16,7 +16,7 @@ public class Table extends SQL {
     }
 
     public void parse() {
-        String fileText[] = readFile.read(fileLocation).split("\n");
+        String fileText[] = readFile.read(fileLocation).replaceAll("(?m)^[ \t]*\r?\n", "").split("\n");
 
         for(int i = 0; i < fileText.length; i++) {
             numRows++;
@@ -29,6 +29,27 @@ public class Table extends SQL {
 
         //recompute column value
         numColumns = numColumns / numRows;
+    }
+
+    public void export() {
+        String exportString = "";
+        for(int i = 0; i < numRows; i++) {
+            String valueString = "";
+            for(int j = 0; j < numColumns; j++) {
+                valueString += data[i][j] + " | ";
+            }
+            valueString = valueString.substring(0, valueString.length() - 3);
+            if(!valueString.replace("|","").trim().equals("")) {
+                exportString += valueString + "\n";
+            }
+        }
+        writeFile.write(fileLocation, false, exportString);
+    }
+
+    public void delete(int rowValue) {
+        for(int i = 0; i < numColumns; i++) {
+            data[rowValue][i] = "";
+        }
     }
 
     public int getColumnValue(String inputValue) {
@@ -54,7 +75,7 @@ public class Table extends SQL {
     public void print() {
         for(int i = 0; i < numRows; i++) {
             for(int j = 0; j < numColumns; j += 3) {
-                console.log("   " + data[i][j] + " | " + data[i][j + 1] + " | " + data[i][j + 2]);
+                console.data(data[i][j] + " | " + data[i][j + 1] + " | " + data[i][j + 2]);
             }
         }
     }

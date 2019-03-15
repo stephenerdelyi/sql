@@ -60,6 +60,10 @@ public class Console extends SQL {
     public void writeConsoleLog(String echoStatement, String route) {
         if (route.equals("log")) {
             System.out.println((char)27 + "[39m" + echoStatement);
+        } else if (route.equals("data")) {
+            System.out.print((char)27 + "[39m");
+            System.out.println((char)27 + "[34m" + "   " + echoStatement);
+            System.out.print((char)27 + "[39m");
         } else if (route.equals("warn")) {
             System.out.print((char)27 + "[39m");
             System.out.println((char)27 + "[31m" + "➤  !" + echoStatement);
@@ -94,6 +98,11 @@ public class Console extends SQL {
     //log - parameter override for cleaner log statement outside class
     public void log(String echoStatement) {
         log(echoStatement, "log");
+    }
+
+    //data - output log message with muted text
+    public void data(String echoStatement) {
+        log(echoStatement, "data");
     }
 
     //warn - writes a log message with a warning color

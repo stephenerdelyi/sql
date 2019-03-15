@@ -11,6 +11,8 @@ public class Token extends SQL {
     public String whereClause;
     public String testClause;
     public String valueClause;
+    public String setClause;
+    public String setValueClause;
     public String errorString; //error string for user to read
     public String workingString; //the working string used for processing
     public int selectedCount = 0;

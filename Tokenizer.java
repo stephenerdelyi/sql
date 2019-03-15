@@ -112,6 +112,45 @@ public class Tokenizer extends SQL {
             token.testClause = getNextWord(token);
             //set value clause
             token.valueClause = getNextWord(token);
+        } else if(token.workingString.startsWith("update")) {
+            token.command = "update";
+            removeCommand(token);
+
+            //set tblName
+            token.tblName = getNextWord(token);
+            //remove "set"
+            getNextWord(token);
+            //set setClause
+            token.setClause = getNextWord(token);
+            //remove "="
+            getNextWord(token);
+            //set setValueClause
+            String testClause = getNextWord(token);
+            token.setValueClause = removeOusideQuotes(testClause);
+            //remove "where"
+            getNextWord(token);
+            //set whereClause
+            token.whereClause = getNextWord(token);
+            //set testClause
+            token.testClause = getNextWord(token);
+            //set valueClause
+            token.valueClause = removeOusideQuotes(getNextWord(token));
+        } else if(token.workingString.startsWith("delete")) {
+            token.command = "delete";
+            removeCommand(token);
+
+            //remove "from"
+            getNextWord(token);
+            //set tblName
+            token.tblName = getNextWord(token);
+            //remove "where"
+            getNextWord(token);
+            //set whereClause
+            token.whereClause = getNextWord(token);
+            //set testClause
+            token.testClause = getNextWord(token);
+            //set valueClause
+            token.valueClause = removeOusideQuotes(getNextWord(token));
         } else if(token.workingString.startsWith("--") || token.workingString.matches("\\s+") || token.workingString.equals("")) {
             token.command = "comment";
         } else if(token.workingString.startsWith(".exit")) {
@@ -182,6 +221,19 @@ public class Tokenizer extends SQL {
         while(token.workingString.startsWith(" ")) {
             token.workingString = token.workingString.substring(1);
         }
+    }
+
+    public String removeOusideQuotes(String inputString) {
+
+        if(inputString.startsWith("'")) {
+            inputString = inputString.substring(1);
+        }
+
+        if(inputString.endsWith("'")) {
+            inputString = inputString.substring(0, inputString.length() - 1);
+        }
+
+        return inputString;
     }
 
     //removeOutsideParenthesis - used in parse -> create table action
