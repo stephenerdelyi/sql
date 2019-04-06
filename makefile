@@ -2,7 +2,7 @@ JFLAGS = -g
 JRUNNER = java
 MAIN = SQL
 JC = javac
-VERSION = 2
+VERSION = 3
 .SUFFIXES: .java .class
 .java.class:
 		$(JC) $(JFLAGS) $*.java
