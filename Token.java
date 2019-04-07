@@ -4,11 +4,15 @@
 public class Token extends SQL {
     public String command; //CREATE DATABASE
     public String tblName; //tbl_1
+    public String tblSuffix; //E
+    public String secondTblName; //tbl_2
+    public String secondTblSuffix; //S
     public String dbName; //db_1
     public String subCommand; //ADD
     public String attributes[] = new String[20]; //(a3 float,...
     public String selected[] = new String[20]; //(a3 float,...
     public String whereClause; //the value that comes directly after "where" keyword
+    public String secondWhereClause; //the second where clause for table joins
     public String testClause; //the test value, ie =, !=, >, <, etc
     public String valueClause; //the value that comes directly after the test clause
     public String setClause; //the set clause (used only in update)

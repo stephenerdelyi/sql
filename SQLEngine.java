@@ -160,12 +160,119 @@ public class SQLEngine extends SQL {
         if(currentDB == "") {
             console.warn("Failed to select table " + token.tblName + " because there is no database in use");
         } else {
-            if(!tableExists(token.tblName)) {
-                console.warn("Failed to select table " + token.tblName + " because it does not exist");
-            } else {
-                Table table = new Table(databaseLocation + currentDB + "/" + token.tblName);
-                console.log("➤  Table: " + token.tblName);
-                table.print();
+            if(token.subCommand.equals("standard")) {
+                if(!tableExists(token.tblName)) {
+                    console.warn("Failed to select table " + token.tblName + " because it does not exist");
+                } else {
+                    Table table = new Table(databaseLocation + currentDB + "/" + token.tblName);
+                    console.log("➤  Table: " + token.tblName);
+                    table.print();
+                }
+            } else if(token.subCommand.equals("inner join")) {
+                Table tableA = new Table(databaseLocation + currentDB + "/" + token.tblName);
+                Table tableB = new Table(databaseLocation + currentDB + "/" + token.secondTblName);
+
+                int whereColumnA = tableA.getColumnValue(token.whereClause);
+                int whereColumnB = tableB.getColumnValue(token.secondWhereClause);
+                String returnString = "";
+                //print the first column for table A
+                for(int i = 0; i < tableA.numColumns; i++) {
+                    returnString += tableA.data[0][i] + " | ";
+                }
+                //print the first column for table B
+                for(int i = 0; i < tableB.numColumns; i++) {
+                    returnString += tableB.data[0][i] + " | ";
+                }
+                console.log("Table: " + token.tblName + " inner joined to " + token.secondTblName);
+                console.data(returnString.substring(0, returnString.length() - 3));
+
+                for(int i = 1; i < tableA.numRows; i++) {
+                    for(int j = 1; j < tableB.numRows; j++) {
+                        returnString = "";
+                        if(token.testClause.equals("=")) {
+                            if(tableA.data[i][whereColumnA].equals(tableB.data[j][whereColumnB])) {
+                                for(int k = 0; k < tableA.numColumns; k++) {
+                                    returnString += tableA.data[i][k] + " | ";
+                                }
+                                for(int k = 0; k < tableB.numColumns; k++) {
+                                    returnString += tableB.data[j][k] + " | ";
+                                }
+                            }
+                        }
+                        if(!returnString.trim().equals("")) {
+                            console.data(returnString.substring(0, returnString.length() - 3));
+                        }
+                    }
+                }
+            } else if(token.subCommand.equals("left outer join")) {
+                Table tableA = new Table(databaseLocation + currentDB + "/" + token.tblName);
+                Table tableB = new Table(databaseLocation + currentDB + "/" + token.secondTblName);
+                int skipRowTracker[] = new int[20];
+                int skipRowHead = 0;
+                int whereColumnA = tableA.getColumnValue(token.whereClause);
+                int whereColumnB = tableB.getColumnValue(token.secondWhereClause);
+                String returnString = "";
+                //print the first column for table A
+                for(int i = 0; i < tableA.numColumns; i++) {
+                    returnString += tableA.data[0][i] + " | ";
+                }
+                //print the first column for table B
+                for(int i = 0; i < tableB.numColumns; i++) {
+                    returnString += tableB.data[0][i] + " | ";
+                }
+                console.log("Table: " + token.tblName + " left outer joined to " + token.secondTblName);
+                console.data(returnString.substring(0, returnString.length() - 3));
+
+                for(int i = 1; i < tableA.numRows; i++) {
+                    for(int j = 1; j < tableB.numRows; j++) {
+                        returnString = "";
+                        if(token.testClause.equals("=")) {
+                            if(tableA.data[i][whereColumnA].equals(tableB.data[j][whereColumnB])) {
+                                for(int k = 0; k < tableA.numColumns; k++) {
+                                    returnString += tableA.data[i][k] + " | ";
+                                }
+                                for(int k = 0; k < tableB.numColumns; k++) {
+                                    returnString += tableB.data[j][k] + " | ";
+                                }
+
+                                boolean foundFlag = false;
+                                for(int l = 0; l < skipRowHead; l++) {
+                                    if(skipRowTracker[l] == i) {
+                                        foundFlag = true;
+                                    }
+                                }
+                                if(!foundFlag) {
+                                    skipRowTracker[skipRowHead] = i;
+                                    skipRowHead++;
+                                }
+                            }
+                        }
+                        if(!returnString.trim().equals("")) {
+                            console.data(returnString.substring(0, returnString.length() - 3));
+                        }
+                    }
+                }
+                //print the left skipped rows
+                for(int i = 1; i < tableA.numRows; i++) {
+                    boolean foundFlag = false;
+                    for(int l = 0; l < skipRowHead; l++) {
+                        if(skipRowTracker[l] == i) {
+                            foundFlag = true;
+                        }
+                    }
+                    if(!foundFlag) {
+                        returnString = "";
+                        for(int j = 0; j < tableA.numColumns; j++) {
+                            returnString += tableA.data[i][j] + " | ";
+                        }
+                        for(int j = 0; j < tableB.numColumns; j++) {
+                            returnString += "null | ";
+                        }
+                        if(!returnString.trim().equals("")) {
+                            console.data(returnString.substring(0, returnString.length() - 3));
+                        }
+                    }
+                }
             }
         }
     }

@@ -30,13 +30,9 @@ public class Tokenizer extends SQL {
             } else {
                 token.dbName = token.workingString;
             }
-        } else if(token.workingString.startsWith("drop table") || token.workingString.startsWith("select * from")) {
+        } else if(token.workingString.startsWith("drop table")) {
             //set command
-            if(token.workingString.startsWith("drop table")) {
-                token.command = "drop table";
-            } else if(token.workingString.startsWith("select * from")) {
-                token.command = "select * from";
-            }
+            token.command = "drop table";
             removeCommand(token);
 
             //set tblName
@@ -49,15 +45,82 @@ public class Tokenizer extends SQL {
             } else {
                 token.tblName = token.workingString;
             }
+        } else if(token.workingString.startsWith("select * from")) {
+            //set command
+            token.command = "select * from";
+            removeCommand(token);
+
+            if(token.workingString.contains(",")) {
+                //select type has two tables
+                token.subCommand = "inner join";
+                //remove the comma from the working string
+                token.workingString = token.workingString.replace(",", "");
+                //set the values
+                token.tblName = getNextWord(token);
+                token.tblSuffix = getNextWord(token);
+                token.secondTblName = getNextWord(token);
+                token.secondTblSuffix = getNextWord(token);
+                //remove where
+                getNextWord(token);
+                //set the rest of the values
+                token.whereClause = getNextWord(token).split("[.]")[1];
+                console.log(token.whereClause);
+                token.testClause = getNextWord(token);
+                token.secondWhereClause = getNextWord(token).split("[.]")[1];
+            } else if(token.workingString.contains("inner join")) {
+                //select type is an inner join
+                token.subCommand = "inner join";
+                //set the values
+                token.tblName = getNextWord(token);
+                token.tblSuffix = getNextWord(token);
+                //remove inner join
+                getNextWord(token);
+                getNextWord(token);
+                //set the rest of the values
+                token.secondTblName = getNextWord(token);
+                token.secondTblSuffix = getNextWord(token);
+                //remove on
+                getNextWord(token);
+                //get the rest of the values
+                token.whereClause = getNextWord(token).split("[.]")[1];
+                token.testClause = getNextWord(token);
+                token.secondWhereClause = getNextWord(token).split("[.]")[1];
+            } else if(token.workingString.contains("left outer join")) {
+                //select type is a left outer join
+                token.subCommand = "left outer join";
+                //set the values
+                token.tblName = getNextWord(token);
+                token.tblSuffix = getNextWord(token);
+                //remove left outer join
+                getNextWord(token);
+                getNextWord(token);
+                getNextWord(token);
+                //set the rest of the values
+                token.secondTblName = getNextWord(token);
+                token.secondTblSuffix = getNextWord(token);
+                //remove on
+                getNextWord(token);
+                //get the rest of the values
+                token.whereClause = getNextWord(token).split("[.]")[1];
+                token.testClause = getNextWord(token);
+                token.secondWhereClause = getNextWord(token).split("[.]")[1];
+            } else {
+                //select type is standard
+                token.subCommand = "standard";
+                //set tblName
+                if(token.workingString.matches(".*\\s+.*")) {
+                    errorToken.errorString = "Can not contain white space in table name";
+                    return errorToken;
+                } else if(token.workingString.equals("")) {
+                    errorToken.errorString = "No table value supplied";
+                    return errorToken;
+                } else {
+                    token.tblName = token.workingString;
+                }
+            }
         } else if(token.workingString.startsWith("create table")) {
             token.command = "create table";
             removeCommand(token);
-
-            //verify resulting string
-            /*if(!token.workingString.matches("")) {
-                errorToken.errorString = "Create table command invalid (general regex fail)";
-                return errorToken;
-            }*/
 
             //set tblName
             token.tblName = getNextWord(token);
@@ -68,12 +131,6 @@ public class Tokenizer extends SQL {
         } else if(token.workingString.startsWith("alter table")) {
             token.command = "alter table";
             removeCommand(token);
-
-            //verify resulting string
-            /*if(!token.workingString.matches("")) {
-                errorToken.errorString = "Alter table command invalid (general regex fail)";
-                return errorToken;
-            }*/
 
             //set tblName
             token.tblName = getNextWord(token);
