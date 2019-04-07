@@ -64,7 +64,6 @@ public class Tokenizer extends SQL {
                 getNextWord(token);
                 //set the rest of the values
                 token.whereClause = getNextWord(token).split("[.]")[1];
-                console.log(token.whereClause);
                 token.testClause = getNextWord(token);
                 token.secondWhereClause = getNextWord(token).split("[.]")[1];
             } else if(token.workingString.contains("inner join")) {

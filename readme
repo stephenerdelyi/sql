@@ -8,12 +8,14 @@
 // NOTICE:
 ///////////////////
 please read the project report for detailed project information
-
+*!*!*
+  THERE ARE NOTICES LOCATED IN THE PROJECT REPORT. PLEASE READ THEM BEFORE RUNNING
+*!*!*
 
 ///////////////////
 // project description:
 ///////////////////
-This SQL simulator allows simple database and table management. This simulator allows you to create, drop, alter, select, delete, insert, and query databases and the respective tables within them. A full report describing this program is available in the "report" folder.
+This SQL simulator allows simple database and table management. This simulator allows you to create, drop, alter, select, delete, insert, join tables, and query databases and the respective tables within them. A full report describing this program is available in the "report" folder.
 
 
 ///////////////////

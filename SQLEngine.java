@@ -160,7 +160,9 @@ public class SQLEngine extends SQL {
         if(currentDB == "") {
             console.warn("Failed to select table " + token.tblName + " because there is no database in use");
         } else {
+            //check the subcommand to determine processing path
             if(token.subCommand.equals("standard")) {
+                //standard "select * from"
                 if(!tableExists(token.tblName)) {
                     console.warn("Failed to select table " + token.tblName + " because it does not exist");
                 } else {
@@ -223,6 +225,7 @@ public class SQLEngine extends SQL {
                 console.log("Table: " + token.tblName + " left outer joined to " + token.secondTblName);
                 console.data(returnString.substring(0, returnString.length() - 3));
 
+                //perform an inner join
                 for(int i = 1; i < tableA.numRows; i++) {
                     for(int j = 1; j < tableB.numRows; j++) {
                         returnString = "";
@@ -252,7 +255,8 @@ public class SQLEngine extends SQL {
                         }
                     }
                 }
-                //print the left skipped rows
+
+                //print the left skipped rows (left outer join)
                 for(int i = 1; i < tableA.numRows; i++) {
                     boolean foundFlag = false;
                     for(int l = 0; l < skipRowHead; l++) {
