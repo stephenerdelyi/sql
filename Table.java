@@ -78,8 +78,13 @@ public class Table extends SQL {
     //print - prints out the entire data payload
     public void print() {
         for(int i = 0; i < numRows; i++) {
-            for(int j = 0; j < numColumns; j += 3) {
-                console.data(data[i][j] + " | " + data[i][j + 1] + " | " + data[i][j + 2]);
+            String valueString = "";
+            for(int j = 0; j < numColumns; j++) {
+                valueString += data[i][j] + " | ";
+            }
+            valueString = valueString.substring(0, valueString.length() - 3);
+            if(!valueString.replace("|","").trim().equals("")) {
+                console.data(valueString);
             }
         }
     }
