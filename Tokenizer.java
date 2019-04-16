@@ -207,6 +207,10 @@ public class Tokenizer extends SQL {
             token.testClause = getNextWord(token);
             //set valueClause
             token.valueClause = removeOusideQuotes(getNextWord(token));
+        } else if(token.workingString.startsWith("begin transaction")) {
+            token.command = "begin transaction";
+        } else if(token.workingString.startsWith("commit")) {
+            token.command = "commit";
         } else if(token.workingString.startsWith("--") || token.workingString.matches("\\s+") || token.workingString.equals("")) {
             token.command = "comment";
         } else if(token.workingString.startsWith(".exit")) {

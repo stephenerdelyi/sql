@@ -1,6 +1,7 @@
 documentation/*
 report/*
 .DS_Store
+locks/*
 *.class
 *.lgf
 *.zip

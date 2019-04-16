@@ -36,6 +36,10 @@ public class SQLEngine extends SQL {
             select(token);
         } else if(token.command == "update") {
             update(token);
+        } else if(token.command == "begin transaction") {
+            beginTransaction(token);
+        } else if(token.command == "commit") {
+            commit(token);
         } else if(token.command == "delete") {
             delete(token);
         } else if(token.command == "error") {
@@ -397,6 +401,16 @@ public class SQLEngine extends SQL {
                 }
             }
         }
+    }
+
+    //beginTransaction - acquires a mutex lock
+    public void beginTransaction(Token token) {
+        console.log("Begin transaction");
+    }
+
+    //commit - commits the changes enacted after a transaction
+    public void commit(Token token) {
+        console.log("Commit");
     }
 
     //delete - delete rows which satisfy a condition given by the query string
