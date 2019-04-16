@@ -8,10 +8,12 @@ public class Table extends SQL {
     WriteFile writeFile = new WriteFile(); //the file writer, used to write files
     ReadFile readFile = new ReadFile(); //the file reader, used to read files
     String fileLocation; //the file location of the table's file format
+    Lock lock; //the table mutex lock used for atomic verification
 
     //Table - default constructor that initializes the fileLocation and parses the data
     Table(String inputLocation) {
         fileLocation = inputLocation;
+        lock = new Lock(fileLocation);
         parse();
     }
 
