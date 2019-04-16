@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////
-//              PROJECT ASSIGNMENT #3               //
+//              PROJECT ASSIGNMENT #4               //
 //      Stephen Erdelyi Jr - CS 457 - SQL Sim       //
 //////////////////////////////////////////////////////
 public class SQL {
@@ -7,7 +7,7 @@ public class SQL {
     static Console console = new Console();
     static Tokenizer tokenizer = new Tokenizer();
     static SQLEngine sql = new SQLEngine();
-    static int version = 3;
+    static int version = 4;
 
     public static void main(String[] args) {
         /////////////////////////////////////////////////////

@@ -2,7 +2,7 @@ JFLAGS = -g
 JRUNNER = java
 MAIN = SQL
 JC = javac
-VERSION = 3
+VERSION = 4
 .SUFFIXES: .java .class
 .java.class:
 		$(JC) $(JFLAGS) $*.java
@@ -14,7 +14,8 @@ CLASSES = \
 		Tokenizer.java\
 		Token.java\
 		SQLEngine.java\
-		Table.java
+		Table.java\
+		Lock.java
 
 default: classes
 
@@ -34,6 +35,7 @@ clean:
 		$(RM) *.class
 		$(RM) *.lgf
 		$(RM) *.zip
+		$(RM) -r locks
 		$(RM) .DS_Store
 		clear
 		@echo "✓ SQL Cleaned - Runtime Dependencies No Longer Available"

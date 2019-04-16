@@ -26,4 +26,10 @@ public class ReadFile extends SQL {
         }
         return "";
     }
+
+    //fileExists - returns wheather or not a file exists at a given location
+    public boolean fileExists(String filePath) {
+        File file = new File(filePath);
+        return file.exists();
+    }
 }
