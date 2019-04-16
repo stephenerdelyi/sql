@@ -193,7 +193,7 @@ public class SQLEngine extends SQL {
                 for(int i = 0; i < tableB.numColumns; i++) {
                     returnString += tableB.data[0][i] + " | ";
                 }
-                console.log("Table: " + token.tblName + " inner joined to " + token.secondTblName);
+                console.log("➤  Table: " + token.tblName + " inner joined to " + token.secondTblName);
                 console.data(returnString.substring(0, returnString.length() - 3));
 
                 for(int i = 1; i < tableA.numRows; i++) {
@@ -230,7 +230,7 @@ public class SQLEngine extends SQL {
                 for(int i = 0; i < tableB.numColumns; i++) {
                     returnString += tableB.data[0][i] + " | ";
                 }
-                console.log("Table: " + token.tblName + " left outer joined to " + token.secondTblName);
+                console.log("➤  Table: " + token.tblName + " left outer joined to " + token.secondTblName);
                 console.data(returnString.substring(0, returnString.length() - 3));
 
                 //perform an inner join
@@ -308,7 +308,7 @@ public class SQLEngine extends SQL {
             for(int i = 0; i < token.selectedCount; i++) {
                 returnString += table.data[0][selectedColumns[i]] + " | ";
             }
-            console.log("Table: " + token.tblName);
+            console.log("➤  Table: " + token.tblName);
             console.data(returnString.substring(0, returnString.length() - 3));
             //loop through the columns and print the matching values
             for(int i = 1; i < table.numRows; i++) {
@@ -430,7 +430,7 @@ public class SQLEngine extends SQL {
         if(currentDB == "") {
             console.warn("Failed to enable transactions because there is no database in use");
         } else {
-            console.log("Transaction starts");
+            console.success("Transaction starts");
             usingTransactions = true;
         }
     }
@@ -445,7 +445,7 @@ public class SQLEngine extends SQL {
             usingTransactions = false;
             numSavedTables = 0;
             saveTables = new Table[15];
-            console.log("Transaction committed");
+            console.success("Transaction committed");
         } else {
             console.warn("Transaction abort");
         }
